@@ -1,5 +1,5 @@
 package com.natixis.java.gestao_consultas.repository;
 
-public class GestaoConsultaRepository {
+public class ConsultaRepository {
     
 }
