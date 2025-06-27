@@ -28,27 +28,29 @@ public class ConsultaController {
             throw new IllegalArgumentException("Não é possível agendar consultas no passado");
         }
         
-        boolean conflito = consultaRepository.existsByMedicoAndDataHoraBetween(
-            consulta.getMedico(),
-            consulta.getDataHora().minusMinutes(30),
-            consulta.getDataHora().plusMinutes(30)
-        );
+        // boolean conflito = consultaRepository.existsByMedicoAndDataHoraBetween(
+        //     consulta.getMedico(),
+        //     consulta.getDataHora().minusMinutes(30),
+        //     consulta.getDataHora().plusMinutes(30)
+        // );
         
-        if (conflito) {
-            throw new IllegalStateException("Conflito de agendamento");
-        }
+        // if (conflito) {
+        //     throw new IllegalStateException("Conflito de agendamento");
+        // }
     }
     
     // Outros métodos...
 
 
-    public List<Consulta> listarConsultasPorMedico(User medico) {
-        return consultaRepository.findByMedico(medico);
-    }
+    // public List<Consulta> listarConsultasPorMedico(User medico) {
+    //     return consultaRepository.findByMedico(medico);
+    // }
 
-    public List<Consulta> listarConsultasPorPaciente(User paciente) {
-        return consultaRepository.findByPaciente(paciente);
-    }
+    // public List<Consulta> listarConsultasPorPaciente(User paciente) {
+    //     return consultaRepository.findByPaciente(paciente);
+    // }
+
+
     // public List<Consulta> listarConsultasPorData(LocalDateTime data) {
     //     return consultaRepository.findByDataHora(data);
     // }

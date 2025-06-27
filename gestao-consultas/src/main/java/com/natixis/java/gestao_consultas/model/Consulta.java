@@ -40,6 +40,7 @@ public class Consulta {
         CANCELADA
     }
     public Consulta() {}
+    
     public Consulta(User paciente, User medico, LocalDateTime dataHora, EstadoConsulta estado, String descricao) {
         this.paciente = paciente;
         this.medico = medico;

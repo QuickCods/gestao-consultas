@@ -7,7 +7,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -15,8 +14,8 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
-import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name = "users")
@@ -40,15 +39,9 @@ public class User {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "user_roles",
-        joinColumns = JoinColumns(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Collection<Role> roles = Collections.emptySet();
+    private Set<Role> roles = Collections.emptySet();
 
     // Getters e Setters
-    // Construtores (incluindo um construtor padrão)
 
     public User() {
     }
@@ -95,9 +88,8 @@ public class User {
     public Collection<Role> getRoles() {
         return roles;
     }
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 }
 
