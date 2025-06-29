@@ -1,19 +1,25 @@
 package com.natixis.java.gestao_consultas.model;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -26,20 +32,29 @@ public class User {
 
     @NotBlank(message = "Username é obrigatório")
     @Column(unique = true, nullable = false)
+    @Size(min = 3, max = 50, message = "Conter entre 3 e 50 caracteres")
     private String username;
 
     @NotBlank(message = "Password é obrigatório")
+    @Size(min = 6, message = "A password tem que ter no mínimo 6 caracteres")
     private String password;
 
-    @NotBlank(message = "Nome é obrigatório")
-    private String nome;
-
+    @NotBlank(message = "O email é obrigatório")
     @Email(message = "Email deve ser válido")
     @Column(unique = true)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = Collections.emptySet();
+	@JoinTable(name = "user_roles",
+			   joinColumns = @JoinColumn(name = "user_id"),
+			   inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
+
+    // Completa a relação: Um usuário pode ter muitos produtos.
+	// "mappedBy = 'user'" diz ao JPA que a relação já está mapeada pelo campo 'user' na entidade Produto.
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Consulta> produtos = new HashSet<>();
+
 
     // Getters e Setters
 
@@ -49,7 +64,6 @@ public class User {
     public User(String username, String password, String nome, String email) {
         this.username = username;
         this.password = password;
-        this.nome = nome;
         this.email = email;
     }
 
@@ -71,12 +85,6 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
     }
     public String getEmail() {
         return email;

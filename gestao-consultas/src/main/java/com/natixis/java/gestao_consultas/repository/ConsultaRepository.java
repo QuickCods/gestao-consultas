@@ -14,14 +14,14 @@ import java.util.List;
 @Repository
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
-    // // Consultar por data
-    // List<Consulta> findByData(LocalDate data);
+    // Consultar por data
+    List<Consulta> findByData(LocalDate data);
 
-    // // Consultas por paciente
-    // List<Consulta> findByPaciente(User paciente);
+    // Consultas por paciente
+    List<Consulta> findByPaciente(User paciente);
     
-    // // Consultas por médico
-    // List<Consulta> findByMedico(User medico);
+    // Consultas por médico
+    List<Consulta> findByMedico(User medico);
     
     // // Consultas por médico e estado
     // List<Consulta> findByMedicoAndEstado(User medico, EstadoConsulta estado);
@@ -30,7 +30,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     // List<Consulta> findByPacienteAndEstado(User paciente, EstadoConsulta estado);
     
     // Verifica se existe consulta conflitante para um médico
-    // boolean existsByMedicoAndDataHoraBetween(User medico, LocalDateTime inicio, LocalDateTime fim);
+    boolean existsByMedicoAndDataHoraBetween(User medico, LocalDateTime inicio, LocalDateTime fim);
 
     
     // // Consultas por médico em um período específico

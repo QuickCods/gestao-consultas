@@ -3,7 +3,7 @@ package com.natixis.java.gestao_consultas.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "roles")
+// @Table(name = "roles")
 public class Role {
     
     @Id
@@ -13,10 +13,18 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name; // ROLE_PACIENTE, ROLE_MEDICO
 
+    public Role(){}
+
     public Role(String name) {
         this.name = name;
     }
+    
     // Getters e Setters
+
+    public Role(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
