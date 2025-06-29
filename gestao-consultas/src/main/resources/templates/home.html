@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Welcome to Our Website</title>
+</head>
+<body>
+    <h1>Welcome to Our Website</h1>
+    <p>This is the public homepage.</p>
+
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/about}">About</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
