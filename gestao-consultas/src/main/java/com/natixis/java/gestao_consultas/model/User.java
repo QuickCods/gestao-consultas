@@ -50,10 +50,10 @@ public class User {
 			   inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
-    // Completa a relação: Um usuário pode ter muitos produtos.
+    // Completa a relação: Um paciente pode ter varias consutlas.
 	// "mappedBy = 'user'" diz ao JPA que a relação já está mapeada pelo campo 'user' na entidade Produto.
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Consulta> produtos = new HashSet<>();
+	private Set<Consulta> consultas = new HashSet<>();
 
 
     // Getters e Setters
