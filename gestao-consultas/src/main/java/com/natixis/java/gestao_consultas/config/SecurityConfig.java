@@ -121,7 +121,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true) // Redireciona para dashboard após login
+                .defaultSuccessUrl("/consultas", true) // Redireciona para consultas após login
                 .permitAll()
             )
             .logout(logout -> logout

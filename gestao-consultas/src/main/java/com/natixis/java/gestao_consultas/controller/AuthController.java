@@ -62,9 +62,9 @@ public class AuthController {
         return "redirect:/login?registered";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard"; // Nome do template Thymeleaf
+    @GetMapping("/consultas-list")
+    public String consultasList() {
+        return "consultas-list"; // Nome do template Thymeleaf
     }
 
     @GetMapping("/access-denied")

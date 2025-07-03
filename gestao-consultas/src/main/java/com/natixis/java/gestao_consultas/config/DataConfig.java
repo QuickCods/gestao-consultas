@@ -53,7 +53,7 @@ public class DataConfig {
                         newUser.setRoles(Set.of(userRole));
                         return userRepository.save(newUser);
                     });
-            
+
             User bruno = userRepository.findByUsername("bruno")
                     .orElseGet(() -> {
                         User newUser = new User();
@@ -63,8 +63,7 @@ public class DataConfig {
                         newUser.setRoles(Set.of(userRole));
                         return userRepository.save(newUser);
                     });
-            
-                
+
             User mikeOxlong = userRepository.findByUsername("mikeOxlong")
                     .orElseGet(() -> {
                         User newUser = new User();
@@ -76,12 +75,37 @@ public class DataConfig {
                     });
 
             // 3. CRIAR CONSULTAS
-            
-            consultaRepository.save(new Consulta(bruno,jacintoLeite,LocalDateTime.of(2025, 9, 6, 4, 20),EstadoConsulta.PENDENTE,"Torcao testicular"));
 
-            consultaRepository.save(new Consulta(anaCacho,jacintoLeite,LocalDateTime.of(2025, 3, 11, 18, 15),EstadoConsulta.CONCLUIDA,"Papa nicolau"));
+            // consultaRepository.save(new Consulta(bruno, jacintoLeite, LocalDateTime.of(2025, 9, 6, 4, 20),
+            //         EstadoConsulta.PENDENTE, "Torcao testicular"));
 
-            consultaRepository.save(new Consulta(mikeOxlong,jacintoLeite,LocalDateTime.of(2025, 6, 9, 9, 15),EstadoConsulta.CANCELADA,"Nao sabe dizer a letra X"));
+            // consultaRepository.save(new Consulta(anaCacho, jacintoLeite, LocalDateTime.of(2025, 3, 11, 18, 15),
+            //         EstadoConsulta.CONCLUIDA, "Papa nicolau"));
+
+            // consultaRepository.save(new Consulta(mikeOxlong, jacintoLeite, LocalDateTime.of(2025, 6, 9, 9, 15),
+            //         EstadoConsulta.CANCELADA, "Nao sabe dizer a letra X"));
+
+            Consulta c1 = new Consulta(bruno, jacintoLeite,
+                    LocalDateTime.of(2025, 9, 6, 4, 20),
+                    EstadoConsulta.PENDENTE,
+                    "Torcao testicular");
+            c1.setPaciente(bruno);
+            consultaRepository.save(c1);
+            System.out.println("Consulta 1 criada: " + c1.getId());
+
+            Consulta c2 = new Consulta(anaCacho, jacintoLeite,
+                    LocalDateTime.of(2025, 3, 11, 18, 15),
+                    EstadoConsulta.CONCLUIDA,
+                    "Papa nicolau");
+            c2.setPaciente(anaCacho);
+            consultaRepository.save(c2);
+
+            Consulta c3 = new Consulta(mikeOxlong, jacintoLeite,
+                    LocalDateTime.of(2025, 6, 9, 9, 15),
+                    EstadoConsulta.CANCELADA,
+                    "Nao sabe dizer a letra X");
+            c3.setPaciente(mikeOxlong);
+            consultaRepository.save(c3);
 
         };
     }
