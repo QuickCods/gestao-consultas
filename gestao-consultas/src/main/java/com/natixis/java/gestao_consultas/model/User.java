@@ -52,7 +52,7 @@ public class User {
 
     // Completa a relação: Um paciente pode ter varias consutlas.
 	// "mappedBy = 'user'" diz ao JPA que a relação já está mapeada pelo campo 'user' na entidade Produto.
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Consulta> consultas = new HashSet<>();
 
 

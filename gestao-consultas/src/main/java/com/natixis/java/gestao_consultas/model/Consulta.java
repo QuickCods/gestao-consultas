@@ -20,7 +20,7 @@ public class Consulta {
     @JoinColumn(name = "medico_id", nullable = false)
     private User medico;
     
-    @Future
+    // @Future  // É necessário para permitir consultas apenas futuras, ou seja, com data superior à data atual, mas para testar é preciso não usar
     @Column(nullable = false)
     private LocalDateTime dataHora;
     
@@ -33,9 +33,9 @@ public class Consulta {
     private String descricao;
 
     // Este campo cria a ligação entre o consulta e o user que o criou.
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name = "user_id", nullable = false)
+	// private User user;
     
     // Getters, Setters, Construtores
 
