@@ -2,6 +2,7 @@ package com.natixis.java.gestao_consultas.controller;
 
 import com.natixis.java.gestao_consultas.model.Consulta;
 import com.natixis.java.gestao_consultas.model.Consulta.EstadoConsulta;
+import com.natixis.java.gestao_consultas.model.Role;
 import com.natixis.java.gestao_consultas.model.User;
 import com.natixis.java.gestao_consultas.repository.ConsultaRepository;
 import com.natixis.java.gestao_consultas.repository.UserRepository;
@@ -38,6 +39,10 @@ public class ConsultaController {
                 ? consultaRepository.findAll()
                 : consultaRepository.findByPaciente(user);
 
+        // debug
+        System.out.println("Consultas encontradas para " + user.getUsername() + ": " + consultas.size());
+        consultas.forEach(c -> System.out.println("Consulta ID: " + c.getId() + ", Paciente: " + c.getPaciente().getUsername()));
+
         model.addAttribute("consultas", consultas);
         model.addAttribute("isMedico", isMedico);
         model.addAttribute("user", user);
@@ -48,11 +53,28 @@ public class ConsultaController {
     // Marcar nova consulta (paciente)
     @PostMapping("/nova")
     public String marcarConsulta(@ModelAttribute Consulta consulta, Authentication auth) {
+        //debug
+        System.out.println("POST /consultas/nova recebido, consulta: " + consulta);
         User paciente = userRepository.findByUsername(auth.getName()).orElseThrow();
+        User medico = userRepository.findById(consulta.getMedico().getId()).orElseThrow();
         consulta.setPaciente(paciente);
+        consulta.setMedico(medico);
         consulta.setEstado(EstadoConsulta.PENDENTE);
         consultaRepository.save(consulta);
-        return "nova";
+        //debug
+        System.out.println("Consulta salva: " + consulta.getId() + ", paciente: " + consulta.getPaciente().getUsername());
+        return "redirect:/consultas";
+    }
+
+    @GetMapping("/nova")
+    public String mostrarFormularioNovaConsulta(Model model) {
+        model.addAttribute("consulta", new Consulta()); // Para preencher o formulário se necessário
+        // Carregar os médicos
+         // Buscar diretamente todos os médicos
+        List<User> medicos = userRepository.findByRoles_Name("ROLE_MEDICO");
+
+        model.addAttribute("medicos", medicos);
+        return "nova"; // Nome do HTML em templates/
     }
 
     // Cancelar consulta (paciente)

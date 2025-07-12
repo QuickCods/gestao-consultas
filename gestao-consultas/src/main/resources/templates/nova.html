@@ -10,11 +10,11 @@
     <h2>Marcar Nova Consulta</h2>
     <hr/>
 
-    <form th:action="@{/nova}" th:object="${consulta}" method="post">
+    <form th:action="@{/consultas/nova}" th:object="${consulta}" method="post">
         <div class="mb-3">
             <label class="form-label">Médico</label>
             <select th:field="*{medico}" class="form-select" required>
-                <option th:each="medico : ${medicos}" th:value="${medico}" th:text="${medico.username}"></option>
+                <option th:each="medico : ${medicos}" th:value="${medico.id}" th:text="${medico.username}"></option>
             </select>
         </div>
         <div class="mb-3">

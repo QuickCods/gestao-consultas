@@ -40,16 +40,19 @@
                 </form>
 
                 <!-- Ações para PACIENTE -->
-                <form th:if="${!isMedico and consulta.estado != 'CANCELADA'}"
-                      th:action="@{'/consultas/' + ${consulta.id} + '/cancelar'}" method="post">
-                    <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
-                </form>
+                <th:block th:if="${!isMedico}">
+                    <form th:if="${consulta.estado != 'CANCELADA'}" th:action="@{'/consultas/' + ${consulta.id} + '/cancelar'}"
+                        method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                    </form>
+                    <!-- Não exibe botão quando consulta está cancelada -->
+                </th:block>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <a th:if="${!isMedico}" th:href="@{/nova}" class="btn btn-success">Marcar Nova Consulta</a>
+    <a th:if="${!isMedico}" th:href="@{/consultas/nova}" class="btn btn-success">Marcar Nova Consulta</a>
     <a th:href="@{/}" class="btn btn-secondary">Voltar</a>
 </div>
 </body>
