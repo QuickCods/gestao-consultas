@@ -40,8 +40,8 @@
                     <td th:text="${consulta.estado}">Estado</td>
                     <td>
                         <!-- Ações para MÉDICO -->
-                        <form th:if="${isMedico}" th:action="@{'/consultas/' + ${consulta.id} + '/alterar-estado'}" method="post"
-                            class="d-flex gap-1">
+                        <form th:if="${isMedico}" th:action="@{'/consultas/' + ${consulta.id} + '/alterar-estado'}"
+                            method="post" class="d-flex gap-1">
                             <select name="estado" class="form-select form-select-sm">
                                 <option th:selected="${consulta.estado == 'PENDENTE'}" value="PENDENTE">Pendente
                                 </option>
@@ -52,78 +52,83 @@
                             </select>
                             <button type="submit" class="btn btn-sm btn-primary">Atualizar</button>
                         </form>
-            
+
                         <!-- Ações para PACIENTE -->
                         <th:block th:if="${!isMedico}">
-                            <form th:if="${consulta.estado.name() != 'CANCELADA' and consulta.estado.name() != 'CONCLUIDA'}"
+                            <form
+                                th:if="${consulta.estado.name() != 'CANCELADA' and consulta.estado.name() != 'CONCLUIDA'}"
                                 th:action="@{'/consultas/' + ${consulta.id} + '/cancelar'}" method="post">
                                 <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
                             </form>
                         </th:block>
                     </td>
-                </tr></tbody>
-                </table>
-                
-                <div class="d-flex align-items-center gap-2 mt-3 flex-wrap">
-                
-                    <!-- Botão Marcar Nova Consulta -->
-                    <a th:if="${!isMedico}" th:href="@{/consultas/nova}" class="btn btn-success btn-sm">Marcar Nova Consulta</a>
-                
-                    <!-- Botão Voltar -->
-                    <a th:href="@{/}" class="btn btn-secondary btn-sm">Voltar</a>
-                
-                    <!-- Filtros (Data + Estado), alinhados à direita -->
-                    <div class="d-flex gap-2 ms-auto">
-                        <!-- Dropdown Filtro por Data -->
-                        <div class="dropdown">
-                            <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Filtrar por Data
-                            </button>
-                            <div class="dropdown-menu p-3">
-                                <form th:action="@{/consultas}" method="get" class="d-flex flex-column gap-2">
-                                    <label for="dataInicio" class="form-label mb-0">Data Início:</label>
-                                    <input type="date" id="dataInicio" name="dataInicio" class="form-control form-control-sm"
-                                        th:value="${dataInicio}" />
-                
-                                    <label for="dataFim" class="form-label mb-0">Data Fim:</label>
-                                    <input type="date" id="dataFim" name="dataFim" class="form-control form-control-sm"
-                                        th:value="${dataFim}" />
-                
-                                    <!-- Manter filtro de estado -->
-                                    <input type="hidden" name="estado" th:value="${estado}" />
-                
-                                    <button type="submit" class="btn btn-primary btn-sm mt-2">Filtrar</button>
-                                </form>
-                            </div>
-                        </div>
-                
-                        <!-- Dropdown Filtro por Estado -->
-                        <div class="dropdown">
-                            <button class="btn btn-outline-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Filtrar por Estado
-                            </button>
-                            <div class="dropdown-menu p-3">
-                                <form th:action="@{/consultas}" method="get" class="d-flex flex-column gap-2">
-                                    <label for="estado" class="form-label mb-0">Estado:</label>
-                                    <select name="estado" id="estado" class="form-select form-select-sm">
-                                        <option value="">Todos</option>
-                                        <option value="PENDENTE" th:selected="${estado == 'PENDENTE'}">Pendente</option>
-                                        <option value="CONCLUIDA" th:selected="${estado == 'CONCLUIDA'}">Concluída</option>
-                                        <option value="CANCELADA" th:selected="${estado == 'CANCELADA'}">Cancelada</option>
-                                    </select>
-                
-                                    <!-- Manter datas no filtro -->
-                                    <input type="hidden" name="dataInicio" th:value="${dataInicio}" />
-                                    <input type="hidden" name="dataFim" th:value="${dataFim}" />
-                
-                                    <button type="submit" class="btn btn-info btn-sm mt-2">Filtrar</button>
-                                </form>
-                            </div>
-                        </div>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex align-items-center gap-2 mt-3 flex-wrap">
+
+            <!-- Botão Marcar Nova Consulta -->
+            <a th:if="${!isMedico}" th:href="@{/consultas/nova}" class="btn btn-success btn-sm">Marcar Nova Consulta</a>
+
+            <!-- Botão Voltar -->
+            <a th:href="@{/}" class="btn btn-secondary btn-sm">Voltar</a>
+
+            <!-- Filtros (Data + Estado), alinhados à direita -->
+            <div class="d-flex gap-2 ms-auto">
+                <!-- Dropdown Filtro por Data -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Filtrar por Data
+                    </button>
+                    <div class="dropdown-menu p-3">
+                        <form th:action="@{/consultas}" method="get" class="d-flex flex-column gap-2">
+                            <label for="dataInicio" class="form-label mb-0">Data Início:</label>
+                            <input type="date" id="dataInicio" name="dataInicio" class="form-control form-control-sm"
+                                th:value="${dataInicio}" />
+
+                            <label for="dataFim" class="form-label mb-0">Data Fim:</label>
+                            <input type="date" id="dataFim" name="dataFim" class="form-control form-control-sm"
+                                th:value="${dataFim}" />
+
+                            <!-- Manter filtro de estado -->
+                            <input type="hidden" name="estado" th:value="${estado}" />
+
+                            <button type="submit" class="btn btn-primary btn-sm mt-2">Filtrar</button>
+
+                            <!-- Botão limpar -->
+                            <a th:href="@{/consultas}" class="btn btn-secondary btn-sm mt-1">Limpar</a>
+                        </form>
                     </div>
                 </div>
+
+                <!-- Dropdown Filtro por Estado -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Filtrar por Estado
+                    </button>
+                    <div class="dropdown-menu p-3">
+                        <form th:action="@{/consultas}" method="get" class="d-flex flex-column gap-2">
+                            <label for="estado" class="form-label mb-0">Estado:</label>
+                            <select name="estado" id="estado" class="form-select form-select-sm">
+                                <option value="">Todos</option>
+                                <option value="PENDENTE" th:selected="${estado == 'PENDENTE'}">Pendente</option>
+                                <option value="CONCLUIDA" th:selected="${estado == 'CONCLUIDA'}">Concluída</option>
+                                <option value="CANCELADA" th:selected="${estado == 'CANCELADA'}">Cancelada</option>
+                            </select>
+
+                            <!-- Manter datas no filtro -->
+                            <input type="hidden" name="dataInicio" th:value="${dataInicio}" />
+                            <input type="hidden" name="dataFim" th:value="${dataFim}" />
+
+                            <button type="submit" class="btn btn-info btn-sm mt-2">Filtrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 

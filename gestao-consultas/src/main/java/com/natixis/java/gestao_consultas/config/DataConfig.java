@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.Optional.*;
 
 @Configuration
 public class DataConfig {
@@ -75,15 +74,6 @@ public class DataConfig {
                     });
 
             // 3. CRIAR CONSULTAS
-
-            // consultaRepository.save(new Consulta(bruno, jacintoLeite, LocalDateTime.of(2025, 9, 6, 4, 20),
-            //         EstadoConsulta.PENDENTE, "Torcao testicular"));
-
-            // consultaRepository.save(new Consulta(anaCacho, jacintoLeite, LocalDateTime.of(2025, 3, 11, 18, 15),
-            //         EstadoConsulta.CONCLUIDA, "Papa nicolau"));
-
-            // consultaRepository.save(new Consulta(mikeOxlong, jacintoLeite, LocalDateTime.of(2025, 6, 9, 9, 15),
-            //         EstadoConsulta.CANCELADA, "Nao sabe dizer a letra X"));
 
             Consulta c1 = new Consulta(bruno, jacintoLeite,
                     LocalDateTime.of(2025, 9, 6, 4, 20),

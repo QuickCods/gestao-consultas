@@ -31,11 +31,6 @@ public class Consulta {
     @NotBlank
     @Size(max = 500)
     private String descricao;
-
-    // Este campo cria a ligação entre o consulta e o user que o criou.
-	// @ManyToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "user_id", nullable = false)
-	// private User user;
     
     // Getters, Setters, Construtores
 

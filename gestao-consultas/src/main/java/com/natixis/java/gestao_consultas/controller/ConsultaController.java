@@ -2,7 +2,6 @@ package com.natixis.java.gestao_consultas.controller;
 
 import com.natixis.java.gestao_consultas.model.Consulta;
 import com.natixis.java.gestao_consultas.model.Consulta.EstadoConsulta;
-import com.natixis.java.gestao_consultas.model.Role;
 import com.natixis.java.gestao_consultas.model.User;
 import com.natixis.java.gestao_consultas.repository.ConsultaRepository;
 import com.natixis.java.gestao_consultas.repository.UserRepository;
@@ -45,10 +44,6 @@ public class ConsultaController {
                 .stream()
                 .anyMatch(r -> r.getName().equals("ROLE_MEDICO"));
 
-        // List<Consulta> consultas = isMedico
-        //         ? consultaRepository.findAll()
-        //         : consultaRepository.findByPaciente(user);
-
         List<Consulta> consultas;
 
         LocalDateTime inicio = dataInicio != null ? dataInicio.atStartOfDay() : null;
@@ -90,16 +85,12 @@ public class ConsultaController {
     // Marcar nova consulta (paciente)
     @PostMapping("/nova")
     public String marcarConsulta(@ModelAttribute Consulta consulta, Authentication auth) {
-        //debug
-        System.out.println("POST /consultas/nova recebido, consulta: " + consulta);
         User paciente = userRepository.findByUsername(auth.getName()).orElseThrow();
         User medico = userRepository.findById(consulta.getMedico().getId()).orElseThrow();
         consulta.setPaciente(paciente);
         consulta.setMedico(medico);
         consulta.setEstado(EstadoConsulta.PENDENTE);
         consultaRepository.save(consulta);
-        //debug
-        System.out.println("Consulta salva: " + consulta.getId() + ", paciente: " + consulta.getPaciente().getUsername());
         return "redirect:/consultas";
     }
 
@@ -148,52 +139,4 @@ public class ConsultaController {
             throw new IllegalArgumentException("Não é possível agendar consultas no passado");
         }
     }
-
-// boolean conflito = consultaRepository.existsByMedicoAndDataHoraBetween(
-// consulta.getMedico(),
-// consulta.getDataHora().minusMinutes(30),
-// consulta.getDataHora().plusMinutes(30)
-// );
-
-// if (conflito) {
-// throw new IllegalStateException("Conflito de agendamento");
-// }
-
-// Outros métodos...
-
-// public List<Consulta> listarConsultasPorMedico(User medico) {
-// return consultaRepository.findByMedico(medico);
-// }
-
-// public List<Consulta> listarConsultasPorPaciente(User paciente) {
-// return consultaRepository.findByPaciente(paciente);
-// }
-
-// public List<Consulta> listarConsultasPorData(LocalDateTime data) {
-// return consultaRepository.findByDataHora(data);
-// }
-// public List<Consulta> listarConsultasPorDataIntervalo(LocalDateTime
-// dataInicial, LocalDateTime dataFinal) {
-// return consultaRepository.findByDataHoraBetween(dataInicial, dataFinal);
-// }
-// public List<Consulta> listarConsultasPorEstado(EstadoConsulta estado) {
-// return consultaRepository.findAllByEstado(estado);
-// }
-// public List<Consulta> listarConsultasPorDescricao(String descricao) {
-// return consultaRepository.findAllByDescricaoContaining(descricao);
-// }
-// public List<Consulta> listarConsultasPorMedicoDataHora(User medico,
-// LocalDateTime dataHora) {
-// return consultaRepository.findAllByMedicoAndDataHora(medico, dataHora);
-// }
-// public List<Consulta> listarConsultasPorPacienteDataHora(User paciente,
-// LocalDateTime dataHora) {
-// return consultaRepository.findAllByPacienteAndDataHora(paciente, dataHora);
-// }
-// public List<Consulta> listarConsultasPorMedicoDataHoraIntervalo(User medico,
-// LocalDateTime dataHoraInicial, LocalDateTime dataHoraFinal) {
-// return consultaRepository.findAllByMedicoAndDataHoraBetween(medico,
-// dataHoraInicial, dataHoraFinal);
-// }
-
 }
