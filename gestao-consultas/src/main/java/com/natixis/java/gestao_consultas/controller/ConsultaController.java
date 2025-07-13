@@ -37,6 +37,7 @@ public class ConsultaController {
             @RequestParam(name = "dataInicio", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
 
             @RequestParam(name = "dataFim", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            @RequestParam(required = false) String estado,
             Model model, Authentication auth) {
         User user = userRepository.findByUsername(auth.getName()).orElseThrow();
 
@@ -50,18 +51,28 @@ public class ConsultaController {
 
         List<Consulta> consultas;
 
-        if (dataInicio != null && dataFim != null) {
-            LocalDateTime inicio = dataInicio.atStartOfDay();
-            LocalDateTime fim = dataFim.atTime(LocalTime.MAX);
+        LocalDateTime inicio = dataInicio != null ? dataInicio.atStartOfDay() : null;
+        LocalDateTime fim = dataFim != null ? dataFim.atTime(LocalTime.MAX) : null;
 
-            if (isMedico) {
+        if (isMedico) {
+            if (inicio != null && fim != null && estado != null && !estado.isBlank()) {
+                consultas = consultaRepository.findByDataHoraBetweenAndEstado(inicio, fim,
+                        EstadoConsulta.valueOf(estado));
+            } else if (inicio != null && fim != null) {
                 consultas = consultaRepository.findByDataHoraBetween(inicio, fim);
+            } else if (estado != null && !estado.isBlank()) {
+                consultas = consultaRepository.findByEstado(EstadoConsulta.valueOf(estado));
             } else {
-                consultas = consultaRepository.findByPacienteAndDataHoraBetween(user, inicio, fim);
+                consultas = consultaRepository.findAll();
             }
         } else {
-            if (isMedico) {
-                consultas = consultaRepository.findAll();
+            if (inicio != null && fim != null && estado != null && !estado.isBlank()) {
+                consultas = consultaRepository.findByPacienteAndDataHoraBetweenAndEstado(user, inicio, fim,
+                        EstadoConsulta.valueOf(estado));
+            } else if (inicio != null && fim != null) {
+                consultas = consultaRepository.findByPacienteAndDataHoraBetween(user, inicio, fim);
+            } else if (estado != null && !estado.isBlank()) {
+                consultas = consultaRepository.findByPacienteAndEstado(user, EstadoConsulta.valueOf(estado));
             } else {
                 consultas = consultaRepository.findByPaciente(user);
             }
