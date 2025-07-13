@@ -16,6 +16,8 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     List<Consulta> findByDataHoraBetween(LocalDateTime start, LocalDateTime end);
 
+    List<Consulta> findByPacienteAndDataHoraBetween(User paciente, LocalDateTime start, LocalDateTime end);
+    
     // Consultar por data
     List<Consulta> findByDataHora(LocalDateTime dataHora);
 
@@ -25,7 +27,6 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     // Consultas por médico
     List<Consulta> findByMedico(User medico);
 
-    
     // // Consultas por médico e estado
     // List<Consulta> findByMedicoAndEstado(User medico, EstadoConsulta estado);
     

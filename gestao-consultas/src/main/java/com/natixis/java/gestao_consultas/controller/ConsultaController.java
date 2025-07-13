@@ -7,12 +7,16 @@ import com.natixis.java.gestao_consultas.model.User;
 import com.natixis.java.gestao_consultas.repository.ConsultaRepository;
 import com.natixis.java.gestao_consultas.repository.UserRepository;
 import jakarta.transaction.Transactional;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -29,23 +33,45 @@ public class ConsultaController {
 
     // Página principal de consultas (médico vê tudo, paciente vê só as suas)
     @GetMapping
-    public String listarConsultas(Model model, Authentication auth) {
+    public String listarConsultas(
+            @RequestParam(name = "dataInicio", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+
+            @RequestParam(name = "dataFim", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            Model model, Authentication auth) {
         User user = userRepository.findByUsername(auth.getName()).orElseThrow();
 
-        boolean isMedico = user.getRoles().stream()
+        boolean isMedico = user.getRoles()
+                .stream()
                 .anyMatch(r -> r.getName().equals("ROLE_MEDICO"));
 
-        List<Consulta> consultas = isMedico
-                ? consultaRepository.findAll()
-                : consultaRepository.findByPaciente(user);
+        // List<Consulta> consultas = isMedico
+        //         ? consultaRepository.findAll()
+        //         : consultaRepository.findByPaciente(user);
 
-        // debug
-        System.out.println("Consultas encontradas para " + user.getUsername() + ": " + consultas.size());
-        consultas.forEach(c -> System.out.println("Consulta ID: " + c.getId() + ", Paciente: " + c.getPaciente().getUsername()));
+        List<Consulta> consultas;
 
+        if (dataInicio != null && dataFim != null) {
+            LocalDateTime inicio = dataInicio.atStartOfDay();
+            LocalDateTime fim = dataFim.atTime(LocalTime.MAX);
+
+            if (isMedico) {
+                consultas = consultaRepository.findByDataHoraBetween(inicio, fim);
+            } else {
+                consultas = consultaRepository.findByPacienteAndDataHoraBetween(user, inicio, fim);
+            }
+        } else {
+            if (isMedico) {
+                consultas = consultaRepository.findAll();
+            } else {
+                consultas = consultaRepository.findByPaciente(user);
+            }
+        }
+        
         model.addAttribute("consultas", consultas);
         model.addAttribute("isMedico", isMedico);
         model.addAttribute("user", user);
+        model.addAttribute("dataInicio", dataInicio != null ? dataInicio.toString() : "");
+        model.addAttribute("dataFim", dataFim != null ? dataFim.toString() : "");
 
         return "consultas-list"; // único HTML usado
     }
