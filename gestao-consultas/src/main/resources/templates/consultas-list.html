@@ -29,7 +29,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="consulta : ${consultas}">
+                <tr th:each="consulta : ${consultas}" th:classappend="${consulta.estado.name() == 'CANCELADA'} ? 'table-danger text-muted opacity-75':
+                (${consulta.estado.name() == 'CONCLUIDA'} ? 'table-success' :
+                (${consulta.estado.name() == 'PENDENTE'} ? 'table-warning' : ''))
+                ">
                     <td th:text="${consulta.id}">1</td>
                     <td th:text="${consulta.paciente.username}">Paciente</td>
                     <td th:text="${consulta.medico.username}">Médico</td>
@@ -52,11 +55,10 @@
 
                         <!-- Ações para PACIENTE -->
                         <th:block th:if="${!isMedico}">
-                            <form th:if="${consulta.estado != 'CANCELADA'}"
+                            <form th:if="${consulta.estado.name() != 'CANCELADA' and consulta.estado.name() != 'CONCLUIDA'}"
                                 th:action="@{'/consultas/' + ${consulta.id} + '/cancelar'}" method="post">
                                 <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
                             </form>
-                            <!-- Não exibe botão quando consulta está cancelada -->
                         </th:block>
                     </td>
                 </tr>
