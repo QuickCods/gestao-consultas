@@ -72,7 +72,7 @@ public class ConsultaController {
                 consultas = consultaRepository.findByPaciente(user);
             }
         }
-        
+
         model.addAttribute("consultas", consultas);
         model.addAttribute("isMedico", isMedico);
         model.addAttribute("user", user);
@@ -98,7 +98,7 @@ public class ConsultaController {
     public String mostrarFormularioNovaConsulta(Model model) {
         model.addAttribute("consulta", new Consulta()); // Para preencher o formulário se necessário
         // Carregar os médicos
-         // Buscar diretamente todos os médicos
+        // Buscar diretamente todos os médicos
         List<User> medicos = userRepository.findByRoles_Name("ROLE_MEDICO");
 
         model.addAttribute("medicos", medicos);

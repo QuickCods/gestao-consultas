@@ -21,10 +21,10 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     // Consultas por paciente
     List<Consulta> findByPaciente(User paciente);
-    
+
     // Consultas por médico
     List<Consulta> findByMedico(User medico);
-    
+
     // Verifica se existe consulta conflitante para um médico
     boolean existsByMedicoAndDataHoraBetween(User medico, LocalDateTime inicio, LocalDateTime fim);
 
@@ -34,7 +34,6 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     List<Consulta> findByPacienteAndEstado(User paciente, EstadoConsulta estado);
 
-    List<Consulta> findByPacienteAndDataHoraBetweenAndEstado(User paciente, LocalDateTime inicio, LocalDateTime fim,
-            EstadoConsulta estado);
+    List<Consulta> findByPacienteAndDataHoraBetweenAndEstado(User paciente, LocalDateTime inicio, LocalDateTime fim, EstadoConsulta estado);
 
 }

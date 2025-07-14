@@ -16,48 +16,53 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableMethodSecurity // Habilita @PreAuthorize
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable()) // Desabilita CSRF temporariamente para H2 console, ajuste para produção
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin())) // Permite H2
-                                                                                                     // console em
-                                                                                                     // iframe
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(
-                                "/h2-console/**",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**",
-                                "/register",
-                                "/",
-                                "/error")
-                        .permitAll()
-                        .requestMatchers("/medico/**").hasRole("MEDICO") // Páginas apenas para MEDICO
-                        .requestMatchers("/api/**").hasRole("MEDICO") // Regra nova para API
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/consultas", true) // Redireciona para consultas após login
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/logout") // Configuração recomendada para logout
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll())
-                .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedPage("/access-denied") // Página de acesso negado
-                );
-        return http.build();
-    }
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .csrf(csrf -> csrf.disable()) // Desabilita CSRF temporariamente para H2 console, ajuste
+                                                              // para produção
+                                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin())) // Permite
+                                                                                                                     // H2
+                                                                                                                     // console
+                                                                                                                     // em
+                                                                                                                     // iframe
+                                .authorizeHttpRequests(authorize -> authorize
+                                                .requestMatchers(
+                                                                "/h2-console/**",
+                                                                "/css/**",
+                                                                "/js/**",
+                                                                "/images/**",
+                                                                "/register",
+                                                                "/",
+                                                                "/error")
+                                                .permitAll()
+                                                .requestMatchers("/medico/**").hasRole("MEDICO") // Páginas apenas para
+                                                                                                 // MEDICO
+                                                .requestMatchers("/api/**").hasRole("MEDICO") // Regra nova para API
+                                                .anyRequest().authenticated())
+                                .formLogin(form -> form
+                                                .loginPage("/login")
+                                                .defaultSuccessUrl("/consultas", true) // Redireciona para consultas
+                                                                                       // após login
+                                                .permitAll())
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout") // Configuração recomendada para logout
+                                                .logoutSuccessUrl("/login?logout")
+                                                .permitAll())
+                                .exceptionHandling(exceptions -> exceptions
+                                                .accessDeniedPage("/access-denied") // Página de acesso negado
+                                );
+                return http.build();
+        }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+                        throws Exception {
+                return authenticationConfiguration.getAuthenticationManager();
+        }
 }

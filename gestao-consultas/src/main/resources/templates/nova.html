@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Nova Consulta</title>
@@ -9,15 +10,18 @@
             0% {
                 background-position: 0% 50%;
             }
+
             50% {
                 background-position: 100% 50%;
             }
+
             100% {
                 background-position: 0% 50%;
             }
         }
 
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -36,7 +40,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
             margin-top: 50px;
         }
 
@@ -45,10 +49,11 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Marcar Nova Consulta</h2>
-        <hr/>
+        <hr />
 
         <form th:action="@{/consultas/nova}" th:object="${consulta}" method="post">
             <div class="mb-3">
@@ -59,7 +64,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Data e Hora</label>
-                <input type="datetime-local" th:field="*{dataHora}" class="form-control" required/>
+                <input type="datetime-local" th:field="*{dataHora}" class="form-control" required />
             </div>
             <div class="mb-3">
                 <label class="form-label">Descrição</label>
@@ -70,4 +75,5 @@
         </form>
     </div>
 </body>
+
 </html>

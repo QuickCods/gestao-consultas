@@ -1,9 +1,9 @@
 package com.natixis.java.gestao_consultas.controller;
 
-import com.natixis.java.gestao_consultas.model.Role; // Importação ajustada
-import com.natixis.java.gestao_consultas.model.User; // Importação ajustada
-import com.natixis.java.gestao_consultas.repository.RoleRepository; // Importação ajustada
-import com.natixis.java.gestao_consultas.repository.UserRepository; // Importação ajustada
+import com.natixis.java.gestao_consultas.model.Role;
+import com.natixis.java.gestao_consultas.model.User;
+import com.natixis.java.gestao_consultas.repository.RoleRepository;
+import com.natixis.java.gestao_consultas.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,8 @@ public class AuthController {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -51,7 +52,7 @@ public class AuthController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        
+
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_PACIENTE")
                 .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_PACIENTE"))); // Garante que a role exista
