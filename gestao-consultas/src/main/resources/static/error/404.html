@@ -1,16 +1,82 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <title>Página Não Encontrada</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding-top: 50px; }
-        h1 { font-size: 48px; }
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+                background-color: #1a1a1a;
+            }
+
+            25% {
+                background-position: 100% 50%;
+                background-color: #8b0000;
+            }
+
+            50% {
+                background-position: 0% 50%;
+                background-color: #ff0000;
+            }
+
+            75% {
+                background-position: 100% 50%;
+                background-color: #8b0000;
+            }
+
+            100% {
+                background-position: 0% 50%;
+                background-color: #1a1a1a;
+            }
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            color: white;
+            background: linear-gradient(135deg, #1a1a1a, #ff0000, #8b0000);
+            background-size: 400% 400%;
+            animation: gradientBG 4s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 48px;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        a {
+            color: white;
+            background-color: red;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
+
 <body>
     <h1>Erro 404</h1>
     <p>Oops! A página que estás à procura não foi encontrada.</p>
     <a href="/consultas">Voltar para a página inicial</a>
 </body>
+
 </html>
